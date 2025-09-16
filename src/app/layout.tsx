@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Manrope } from "next/font/google";
 import "./globals.css";
+import { Header } from "@/components/common/Header";
+import { cn } from "@/lib/utils";
 
 const manrope = Manrope({
   variable: "--font-manrope",
@@ -24,7 +26,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${manrope.variable} ${manrope.variable} antialiased`}>
+      <body
+        className={cn(
+          "min-h-screen bg-background font-manrope antialiased",
+          manrope.variable
+        )}
+      >
+        <Header />
         {children}
       </body>
     </html>
