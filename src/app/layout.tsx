@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
 import { Manrope } from "next/font/google";
 import "./globals.css";
-import { Header } from "@/components/common/Header";
+import { Header } from "@/components/custom/Header";
 import { cn } from "@/lib/utils";
+import QueryProvider from "@/utils/QueryProvider";
 
 const manrope = Manrope({
   variable: "--font-manrope",
@@ -32,8 +33,10 @@ export default function RootLayout({
           manrope.variable
         )}
       >
-        <Header />
-        {children}
+        <QueryProvider>
+          <Header />
+          <main>{children}</main>
+        </QueryProvider>
       </body>
     </html>
   );

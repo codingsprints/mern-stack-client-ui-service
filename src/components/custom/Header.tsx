@@ -13,8 +13,8 @@ export const Header = async () => {
   return (
     <>
       <header className="bg-white">
-        <nav className="container py-5 flex items-center justify-around">
-          <div className="flex items-center space-x-4">
+        <nav className="container py-5 flex items-center justify-between">
+          <div className="flex ms-10 items-center space-x-4">
             <Link href={"/"}>
               <svg
                 data-testid="logo"
