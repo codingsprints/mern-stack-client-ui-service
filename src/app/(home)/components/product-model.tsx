@@ -12,6 +12,9 @@ import React, { startTransition, Suspense, useState } from "react";
 import ToppingList from "./topping-list";
 import { Button } from "@/components/ui/button";
 import { CATEGORIES } from "@/constants/constant";
+import { addToCart, CartItem } from "@/lib/store/features/cart/cartSlice";
+import { useAppDispatch, useAppSelector } from "@/lib/store/hooks";
+import { hashTheItem } from "@/lib/utils";
 
 const ProductModal = ({ product }: { product: Product }) => {
   const defaultConfiguration = Object.entries(
@@ -27,6 +30,10 @@ const ProductModal = ({ product }: { product: Product }) => {
   );
   const [dialogOpen, setDialogOpen] = useState<boolean>(false);
   const [selectedToppings, setSelectedToppings] = React.useState<Topping[]>([]);
+  // const { toast } = useToast();
+
+  const cartItems = useAppSelector((state) => state?.cart?.cartItems);
+  const dispatch = useAppDispatch();
   const totalPrice = React.useMemo(() => {
     const toppingsTotal = selectedToppings.reduce(
       (acc, curr) => acc + curr.price,
@@ -42,6 +49,23 @@ const ProductModal = ({ product }: { product: Product }) => {
     );
     return configPricing + toppingsTotal;
   }, [chosenConfig, selectedToppings, product]);
+
+  const alreadyHasInCart = React.useMemo(() => {
+    const currentConfiguration = {
+      _id: product._id,
+      name: product.name,
+      image: product.image,
+      priceConfiguration: product.priceConfiguration,
+      chosenConfiguration: {
+        priceConfiguration: { ...chosenConfig },
+        selectedToppings: selectedToppings,
+      },
+      qty: 1,
+    };
+
+    const hash = hashTheItem(currentConfiguration);
+    return cartItems.some((item) => item.hash === hash);
+  }, [product, chosenConfig, selectedToppings, cartItems]);
 
   const handleRadioChange = (key: string, data: string) => {
     /**
@@ -59,7 +83,7 @@ const ProductModal = ({ product }: { product: Product }) => {
   };
 
   const handleCheckBoxCheck = (topping: Topping) => {
-    console.log("topping clicked", topping, selectedToppings);
+    // console.log("topping clicked", topping, selectedToppings);
     const isAlreadyExists = selectedToppings.some(
       (element: Topping) => element.id === topping.id
     );
@@ -76,6 +100,28 @@ const ProductModal = ({ product }: { product: Product }) => {
     });
   };
 
+  const handleAddToCart = (product: Product) => {
+    console.log("product", product);
+    const itemToAdd: CartItem = {
+      _id: product._id,
+      name: product.name,
+      image: product.image,
+      priceConfiguration: product.priceConfiguration,
+      chosenConfiguration: {
+        priceConfiguration: chosenConfig!,
+        selectedToppings: selectedToppings,
+      },
+      qty: 1,
+    };
+    dispatch(addToCart(itemToAdd));
+    // setSelectedToppings([]);
+    // setDialogOpen(false);
+    // toast({
+    //   // @ts-ignore
+    //   title: <SucessToast />,
+    // });
+  };
+
   return (
     <>
       <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
@@ -83,11 +129,11 @@ const ProductModal = ({ product }: { product: Product }) => {
           Choose
         </DialogTrigger>
 
-        <DialogContent className="p-0 ">
+        <DialogContent className="max-w-[900px]! h-[600px] p-0 ">
           <DialogTitle className="h-[50px] text-lg font-bold p-4 border-b">
             Product Details
           </DialogTitle>
-          <div className="flex overflow-y-auto">
+          <div className="flex  overflow-y-auto">
             <div className="w-1/3 bg-white rounded p-8 flex items-center justify-center sticky top-0">
               <Image
                 src={product?.image}
@@ -96,7 +142,7 @@ const ProductModal = ({ product }: { product: Product }) => {
                 alt={product?.name}
               />
             </div>
-            <div className="w-2/3 p-4">
+            <div className="w-2/3 p-8">
               <h3 className="text-xl font-bold">{product?.name}</h3>
               <p className="mt-1">{product?.description}</p>
               {Object.entries(product.category.priceConfiguration).map(
@@ -134,7 +180,8 @@ const ProductModal = ({ product }: { product: Product }) => {
                   );
                 }
               )}
-              {(product.category.name === CATEGORIES.VEG ||
+              {(product.category.name === CATEGORIES.PIZZA ||
+                product.category.name === CATEGORIES.VEG ||
                 product.category.name === CATEGORIES.NON_VEG) && (
                 <Suspense fallback={"Toppings loading..."}>
                   <ToppingList
@@ -143,13 +190,13 @@ const ProductModal = ({ product }: { product: Product }) => {
                   />
                 </Suspense>
               )}
-              <div className="flex items-center justify-between my-2">
+              <div className="flex items-center justify-between py-3 ">
                 <span className="font-bold">₹{totalPrice}</span>
 
                 <Button
-                  className={"bg-primary "}
-                  //   disabled={alreadyHasInCart}
-                  //   onClick={() => handleAddToCart(product)}
+                  className={alreadyHasInCart ? "bg-gray-700" : "bg-primary"}
+                  disabled={alreadyHasInCart}
+                  onClick={() => handleAddToCart(product)}
                 >
                   {/* <ShoppingCart size={20} /> */}
                   <span className="ml-2">Add to cart</span>

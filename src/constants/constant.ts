@@ -9,6 +9,7 @@ export const ROLES = {
 
 export const CATEGORIES = {
   VEG: "veg-pizza",
+  PIZZA: "Pizza",
   NON_VEG: "nonveg-pizza",
   BEVERAGES: "Beverages",
 };

@@ -12,8 +12,6 @@ export default function Home({
 }) {
   const { data: categoriesData } = FetchCategories();
 
-  console.log(categoriesData?.data?.categoryDto);
-
   return (
     <>
       <section className="bg-white">

@@ -11,12 +11,13 @@ const ToppingList = ({
   handleCheckBoxCheck: (topping: Topping) => void;
 }) => {
   const { data: toppingData, isLoading } = FetchToppings("2");
-  console.log(toppingData);
 
   return (
     <div className="mt-2">
       <p>Extra toppings</p>
-      {!isLoading && (
+      {isLoading ? (
+        <h1>Loading...</h1>
+      ) : (
         <div className="flex flex-wrap gap-2 ">
           {toppingData?.data?.toppingDto?.map((topping: Topping) => {
             return (

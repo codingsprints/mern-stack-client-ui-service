@@ -9,7 +9,12 @@ import {
   SelectValue,
 } from "../ui/select";
 import TenantSelect from "./TenantSelect";
+import dynamic from "next/dynamic";
+import CartCounter from "./cart-counter";
 
+// const CartCounterWithoutSSR = dynamic(() => import("./cart-counter"), {
+//   ssr: false,
+// });
 export const Header = async () => {
   return (
     <>
@@ -63,7 +68,7 @@ export const Header = async () => {
                 </Link>
               </li>
             </ul>
-
+            <CartCounter />
             <div className="flex items-center ml-12">
               <Phone />
               <span>+91 9800 098 998</span>

@@ -4,6 +4,7 @@ import "./globals.css";
 import { Header } from "@/components/custom/Header";
 import { cn } from "@/lib/utils";
 import QueryProvider from "@/utils/QueryProvider";
+import StoreProvider from "@/utils/StoreProvider";
 
 const manrope = Manrope({
   variable: "--font-manrope",
@@ -27,17 +28,19 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={cn(
-          "min-h-screen bg-background font-manrope antialiased",
-          manrope.variable
-        )}
-      >
-        <QueryProvider>
-          <Header />
-          <main>{children}</main>
-        </QueryProvider>
-      </body>
+      <StoreProvider>
+        <body
+          className={cn(
+            "min-h-screen bg-background font-manrope antialiased",
+            manrope.variable
+          )}
+        >
+          <QueryProvider>
+            <Header />
+            <main>{children}</main>
+          </QueryProvider>
+        </body>
+      </StoreProvider>
     </html>
   );
 }
