@@ -83,8 +83,8 @@ const ProductModal = ({ product }: { product: Product }) => {
           Choose
         </DialogTrigger>
 
-        <DialogContent className="max-w-[900px]! h-[600px] p-0 ">
-          <DialogTitle className="text-lg font-bold p-4 border-b">
+        <DialogContent className="p-0 ">
+          <DialogTitle className="h-[50px] text-lg font-bold p-4 border-b">
             Product Details
           </DialogTitle>
           <div className="flex overflow-y-auto">
@@ -96,7 +96,7 @@ const ProductModal = ({ product }: { product: Product }) => {
                 alt={product?.name}
               />
             </div>
-            <div className="w-2/3 p-8">
+            <div className="w-2/3 p-4">
               <h3 className="text-xl font-bold">{product?.name}</h3>
               <p className="mt-1">{product?.description}</p>
               {Object.entries(product.category.priceConfiguration).map(
@@ -143,7 +143,7 @@ const ProductModal = ({ product }: { product: Product }) => {
                   />
                 </Suspense>
               )}
-              <div className="flex items-center justify-between py-3 ">
+              <div className="flex items-center justify-between my-2">
                 <span className="font-bold">₹{totalPrice}</span>
 
                 <Button

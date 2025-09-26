@@ -12,9 +12,9 @@ const ToppingCard = ({
   handleCheckBoxCheck,
 }: ToppingCardType) => {
   console.log("topping", topping, "selectedToppings", selectedToppings);
-  const isCurrentSelected = selectedToppings.some(
-    (element) => element.id === topping.id
-  );
+  const isCurrentSelected = topping?.id
+    ? selectedToppings.some((element) => element.id === topping.id)
+    : false;
 
   return (
     <Button

@@ -52,6 +52,7 @@ const ProductList = ({
   return (
     <>
       {productsLoading || categoriesLoading ? (
+        // add skeleton loading components
         <h1>Loading...</h1>
       ) : (
         <section className="m-5">
