@@ -10,6 +10,7 @@ import { ShoppingCart } from "lucide-react";
 import { Product } from "@/lib/types";
 // import ProductModal from './product-modal';
 import { getFromPrice } from "@/lib/utils";
+import ProductModal from "./product-model";
 
 // export type Product = {
 //     id: string;
@@ -28,7 +29,9 @@ const ProductCard = ({ product }: PropTypes) => {
       </CardHeader>
       <CardContent>
         <h2 className="text-xl font-bold">{product.name}</h2>
-        <p className="mt-2">{product.description}</p>
+        <p className="mt-2" style={{ height: "100px" }}>
+          {product.description}
+        </p>
       </CardContent>
       <CardFooter className="flex items-center justify-between mt-4">
         <p>
@@ -36,7 +39,7 @@ const ProductCard = ({ product }: PropTypes) => {
           <span className="font-bold">₹{getFromPrice(product)}</span>
         </p>
 
-        {/* <ProductModal product={product} /> */}
+        <ProductModal product={product} />
       </CardFooter>
     </Card>
   );

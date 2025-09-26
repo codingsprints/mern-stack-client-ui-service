@@ -108,3 +108,18 @@ export type CreateTenantsType = {
   name: string;
   address: string;
 };
+
+export type ChosenConfig = {
+  [key: string]: string;
+};
+
+export type ToppingCardType = {
+  topping: Topping;
+  selectedToppings: Topping[];
+  handleCheckBoxCheck: (topping: Topping) => void;
+};
+export type tenantQueryParams = {
+  perPage: number;
+  currentPage: number;
+  q?: string;
+};

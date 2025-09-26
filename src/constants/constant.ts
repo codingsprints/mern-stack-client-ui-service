@@ -7,6 +7,12 @@ export const ROLES = {
   MANAGER: "manager",
 };
 
+export const CATEGORIES = {
+  VEG: "veg-pizza",
+  NON_VEG: "nonveg-pizza",
+  BEVERAGES: "Beverages",
+};
+
 export const PER_PAGE = 6;
 
 export const CURRENT_PAGE = 1;

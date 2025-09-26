@@ -8,6 +8,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../ui/select";
+import TenantSelect from "./TenantSelect";
 
 export const Header = async () => {
   return (
@@ -37,7 +38,7 @@ export const Header = async () => {
                 />
               </svg>
             </Link>
-            <Select>
+            {/* <Select>
               <SelectTrigger className="w-[180px] focus:ring-0">
                 <SelectValue placeholder="Theme" />
               </SelectTrigger>
@@ -46,7 +47,8 @@ export const Header = async () => {
                 <SelectItem value="dark">Dark</SelectItem>
                 <SelectItem value="system">System</SelectItem>
               </SelectContent>
-            </Select>
+            </Select> */}
+            <TenantSelect />
           </div>
           <div className="flex items-center gap-x-4">
             <ul className="flex items-center font-medium space-x-4">
