@@ -1,6 +1,7 @@
 "use client";
 import ProductList from "@/app/(home)/components/product-list";
 import { Button } from "@/components/ui/button";
+import { FetchCategories } from "@/services/category.service";
 import Image from "next/image";
 import { use } from "react";
 
@@ -9,6 +10,10 @@ export default function Home({
 }: {
   searchParams: { restaurantId: string };
 }) {
+  const { data: categoriesData } = FetchCategories();
+
+  console.log(categoriesData?.data?.categoryDto);
+
   return (
     <>
       <section className="bg-white">

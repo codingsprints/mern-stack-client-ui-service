@@ -40,16 +40,22 @@ const ProductList = ({
 
   //   const products: { data: Product[] } = await productsResponse.json();
 
-  const { data: productsData } = FetchProductsWithPagination("2");
+  const { data: productsData, isLoading: productsLoading } =
+    FetchProductsWithPagination("2");
 
-  const { data: categoriesData } = FetchCategories();
+  const { data: categoriesData, isLoading: categoriesLoading } =
+    FetchCategories();
 
-  console.log("categoriesData", categoriesData);
+  console.log("categoriesData", categoriesData?.data?.categoryDto);
   console.log("productsData", productsData?.data?.productDto);
 
   return (
-    <section className="m-5">
-      {/* <div className="container py-12">
+    <>
+      {productsLoading || categoriesLoading ? (
+        <h1>Loading...</h1>
+      ) : (
+        <section className="m-5">
+          {/* <div className="container py-12">
         <Tabs defaultValue={categoriesData?.data?.categoryDto[0]?._id}>
           <TabsList>
             {categoriesData?.data?.categoryDto?.map((category: Category) => {
@@ -93,43 +99,50 @@ const ProductList = ({
           </TabsContent>
         </Tabs>
       </div> */}
-      <div className="container py-12">
-        <Tabs defaultValue={categoriesData?.data?.categoryDto[0]?._id}>
-          <TabsList>
-            {categoriesData?.data?.categoryDto?.map((category: Category) => {
-              return (
-                <TabsTrigger
-                  key={category._id}
-                  value={category._id}
-                  className="text-md"
-                >
-                  {category.name}
-                </TabsTrigger>
-              );
-            })}
-          </TabsList>
-          {categoriesData?.data?.categoryDto?.map((category: Category) => {
-            return (
-              <TabsContent key={category._id} value={category._id}>
-                <div className="grid grid-cols-4 gap-6 mt-6">
-                  {productsData?.data?.productDto
-                    ?.filter(
-                      (product: Product) =>
-                        product.category._id === category._id
-                    )
-                    .map((product: Product) => {
-                      // return <h1 key={product?._id}>{product?.name}</h1>;
-                      return (
-                        <ProductCard product={product} key={product._id} />
-                      );
-                    })}
-                </div>
-              </TabsContent>
-            );
-          })}
-        </Tabs>
-      </div>
-    </section>
+          <div className="container py-12">
+            <Tabs
+              defaultValue={categoriesData?.data?.categoryDto[0]?._id}
+              defaultChecked={categoriesData?.data?.categoryDto[0]?._id}
+            >
+              <TabsList>
+                {categoriesData?.data?.categoryDto?.map(
+                  (category: Category) => {
+                    return (
+                      <TabsTrigger
+                        key={category._id}
+                        value={category._id}
+                        className="text-md"
+                      >
+                        {category.name}
+                      </TabsTrigger>
+                    );
+                  }
+                )}
+              </TabsList>
+              {categoriesData?.data?.categoryDto?.map((category: Category) => {
+                return (
+                  <TabsContent key={category._id} value={category._id}>
+                    <div className="grid grid-cols-4 gap-6 mt-6">
+                      {productsData?.data?.productDto
+                        ?.filter(
+                          (product: Product) =>
+                            product.category._id === category._id
+                        )
+                        .map((product: Product) => {
+                          // return <h1 key={product?._id}>{product?.name}</h1>;
+                          return (
+                            <ProductCard product={product} key={product._id} />
+                          );
+                        })}
+                    </div>
+                  </TabsContent>
+                );
+              })}
+            </Tabs>
+          </div>
+        </section>
+      )}
+    </>
   );
 };
 
