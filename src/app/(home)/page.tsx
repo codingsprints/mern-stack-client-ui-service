@@ -8,9 +8,10 @@ import { use } from "react";
 export default function Home({
   searchParams,
 }: {
-  searchParams: { restaurantId: string };
+  searchParams: Promise<{ restaurantId?: string }>;
 }) {
   const { data: categoriesData } = FetchCategories();
+  const params = use(searchParams);
 
   return (
     <>
@@ -39,7 +40,13 @@ export default function Home({
         </div>
       </section>
       {/* <Suspense fallback={"Loading...."}> */}
-      <ProductList searchParams={searchParams} />
+      {params.restaurantId ? (
+        <ProductList restaurantId={params.restaurantId!} />
+      ) : (
+        <div className="h-[200px] bg-dark flex items-center justify-center">
+          <h1>Item Is Not Avilable</h1>
+        </div>
+      )}
       {/* </Suspense> */}
     </>
   );

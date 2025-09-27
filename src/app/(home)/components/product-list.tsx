@@ -1,17 +1,13 @@
 "use client";
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import React from "react";
+import React, { use } from "react";
 import ProductCard from "./product-card";
 import { Category, Product } from "@/lib/types";
 import { FetchProductsWithPagination } from "@/services/product.service";
 import { FetchCategories } from "@/services/category.service";
 
-const ProductList = ({
-  searchParams,
-}: {
-  searchParams: { restaurantId: string };
-}) => {
+const ProductList = ({ restaurantId }: { restaurantId: string }) => {
   // todo: do concurrent requests -> Promise.all()
   //   const categoryResponse = await fetch(
   //     `${process.env.BACKEND_URL}/api/catalog/categories`,
@@ -41,7 +37,7 @@ const ProductList = ({
   //   const products: { data: Product[] } = await productsResponse.json();
 
   const { data: productsData, isLoading: productsLoading } =
-    FetchProductsWithPagination("2");
+    FetchProductsWithPagination(restaurantId);
 
   const { data: categoriesData, isLoading: categoriesLoading } =
     FetchCategories();

@@ -2,6 +2,7 @@ import { Topping } from "@/lib/types";
 import { FetchToppings } from "@/services/topping.service";
 import React from "react";
 import ToppingCard from "./topping-card";
+import { useSearchParams } from "next/navigation";
 
 const ToppingList = ({
   selectedToppings,
@@ -10,7 +11,10 @@ const ToppingList = ({
   selectedToppings: Topping[];
   handleCheckBoxCheck: (topping: Topping) => void;
 }) => {
-  const { data: toppingData, isLoading } = FetchToppings("2");
+  const searchParams = useSearchParams();
+  const { data: toppingData, isLoading } = FetchToppings(
+    searchParams.get("restaurantId") || ""
+  );
 
   return (
     <div className="mt-2">

@@ -12,19 +12,18 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { FetchTenant } from "@/services/tenants.service";
 
 const TenantSelect = () => {
-  //   const router = useRouter();
-  //   const searchParams = useSearchParams();
-
-  //   const handleValueChange = (value: string) => {
-  //     router.push(`/?restaurantId=${value}`);
-  //   };
-
+  const router = useRouter();
+  const searchParams = useSearchParams();
   const { data: tenantData } = FetchTenant();
+
+  const handleValueChange = (value: string) => {
+    router.push(`/?restaurantId=${value}`);
+  };
 
   return (
     <Select
-    //   onValueChange={handleValueChange}
-    //   defaultValue={searchParams.get("restaurantId") || ""}
+      onValueChange={handleValueChange}
+      defaultValue={searchParams.get("restaurantId") || ""}
     >
       <SelectTrigger className="w-[180px] focus:ring-0">
         <SelectValue placeholder="Select Restaurant" />
