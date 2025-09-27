@@ -195,7 +195,7 @@ const ProductModal = ({ product }: { product: Product }) => {
 
                 <Button
                   className={alreadyHasInCart ? "bg-gray-700" : "bg-primary"}
-                  // disabled={alreadyHasInCart}
+                  disabled={alreadyHasInCart}
                   onClick={() => handleAddToCart(product)}
                 >
                   {/* <ShoppingCart size={20} /> */}
