@@ -114,8 +114,8 @@ const ProductModal = ({ product }: { product: Product }) => {
       qty: 1,
     };
     dispatch(addToCart(itemToAdd));
-    // setSelectedToppings([]);
-    // setDialogOpen(false);
+    setSelectedToppings([]);
+    setDialogOpen(false);
     // toast({
     //   // @ts-ignore
     //   title: <SucessToast />,
@@ -195,7 +195,7 @@ const ProductModal = ({ product }: { product: Product }) => {
 
                 <Button
                   className={alreadyHasInCart ? "bg-gray-700" : "bg-primary"}
-                  disabled={alreadyHasInCart}
+                  // disabled={alreadyHasInCart}
                   onClick={() => handleAddToCart(product)}
                 >
                   {/* <ShoppingCart size={20} /> */}

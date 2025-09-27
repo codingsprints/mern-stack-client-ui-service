@@ -45,7 +45,8 @@ export const cartSlice = createSlice({
       };
     },
     setInitialCartItems: (state, action: PayloadAction<CartItem[]>) => {
-      state?.cartItems?.push(...action.payload);
+      const item = [...action.payload];
+      state?.cartItems?.push(...item);
     },
     changeQty: (
       state,
