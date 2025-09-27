@@ -112,7 +112,7 @@ const ProductList = ({
                       <TabsTrigger
                         key={category._id}
                         value={category._id}
-                        className="text-md"
+                        className="text-md cursor-pointer"
                       >
                         {category.name}
                       </TabsTrigger>
@@ -123,7 +123,7 @@ const ProductList = ({
               {categoriesData?.data?.categoryDto?.map((category: Category) => {
                 return (
                   <TabsContent key={category._id} value={category._id}>
-                    <div className="grid grid-cols-4 gap-6 mt-6">
+                    <div className="flex flex-wrap gap-4 mt-6">
                       {productsData?.data?.productDto
                         ?.filter(
                           (product: Product) =>

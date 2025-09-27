@@ -23,24 +23,24 @@ type PropTypes = { product: Product };
 
 const ProductCard = ({ product }: PropTypes) => {
   return (
-    <Card className="border-none rounded-xl">
+    <Card className="border-none rounded-xl !max-h-[700px] !max-w-[500px]">
       <CardHeader className="flex items-center justify-center">
         <Image alt="pizza-image" width={150} height={150} src={product.image} />
       </CardHeader>
       <CardContent>
         <h2 className="text-xl font-bold">{product.name}</h2>
-        <p className="mt-2" style={{ height: "100px" }}>
-          {product.description}
+        <p className="mt-2" style={{ height: "50px" }}>
+          {product.description.slice(0, 50)}...
         </p>
-      </CardContent>
-      <CardFooter className="flex items-center justify-between mt-4">
-        <p>
-          <span>From </span>
-          <span className="font-bold">₹{getFromPrice(product)}</span>
-        </p>
+        <div className="flex items-center justify-between mt-4 w-[350px]">
+          <p>
+            <span>From </span>
+            <span className="font-bold">₹{getFromPrice(product)}</span>
+          </p>
 
-        <ProductModal product={product} />
-      </CardFooter>
+          <ProductModal product={product} />
+        </div>
+      </CardContent>
     </Card>
   );
 };
