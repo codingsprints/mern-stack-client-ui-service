@@ -1,13 +1,11 @@
-import { CATALOG_SERVICE } from "../constant";
-
 export const productEndPoint = {
-  createProducts: `${CATALOG_SERVICE}/products`,
+  createProducts: `${process.env.NEXT_PUBLIC_CATALOG_SERVICE_API}/products`,
   fetchProducts: (restaurantId: string) =>
-    `${CATALOG_SERVICE}/products?page=1&limit=100&tenantId=${restaurantId}`,
+    `${process.env.NEXT_PUBLIC_CATALOG_SERVICE_API}/products?page=1&limit=100&tenantId=${restaurantId}`,
   fetchSingleProduct: (productId: string) =>
-    `${CATALOG_SERVICE}/products/${productId}`,
+    `${process.env.NEXT_PUBLIC_CATALOG_SERVICE_API}/products/${productId}`,
   updateProducts: (productId: string) =>
-    `${CATALOG_SERVICE}/products/${productId}`,
+    `${process.env.NEXT_PUBLIC_CATALOG_SERVICE_API}/products/${productId}`,
   deleteProducts: (productId: string) =>
-    `${CATALOG_SERVICE}/products/${productId}`,
+    `${process.env.NEXT_PUBLIC_CATALOG_SERVICE_API}/products/${productId}`,
 };

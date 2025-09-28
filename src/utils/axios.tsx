@@ -11,7 +11,7 @@ export const axiosInstance = axios.create({
 
 const refreshToken = async () => {
   await axios.post(
-    `${process.env.NEXT_PUBLIC_BACKEND_URL}${process.env.NEXT_AUTH_SERVICE_API}/auth/refresh`,
+    `${process.env.NEXT_PUBLIC_BACKEND_URL}${process.env.NEXT_PUBLIC_AUTH_SERVICE_API}/auth/refresh`,
     {},
     {
       withCredentials: true,

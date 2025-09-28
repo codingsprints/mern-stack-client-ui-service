@@ -1,12 +1,10 @@
-import { CATALOG_SERVICE } from "../constant";
-
 export const categoriesEndPoint = {
-  createCategories: `${CATALOG_SERVICE}/categories`,
-  fetchCategories: `${CATALOG_SERVICE}/categories`,
+  createCategories: `${process.env.NEXT_PUBLIC_CATALOG_SERVICE_API}/categories`,
+  fetchCategories: `${process.env.NEXT_PUBLIC_CATALOG_SERVICE_API}/categories`,
   fetchSingleCategory: (categoryId: string) =>
-    `${CATALOG_SERVICE}/categories/${categoryId}`,
+    `${process.env.NEXT_PUBLIC_CATALOG_SERVICE_API}/categories/${categoryId}`,
   updateCategories: (categoryId: string) =>
-    `${CATALOG_SERVICE}/categories/${categoryId}`,
+    `${process.env.NEXT_PUBLIC_CATALOG_SERVICE_API}/categories/${categoryId}`,
   deleteCategories: (categoryId: string) =>
-    `${CATALOG_SERVICE}/categories/${categoryId}`,
+    `${process.env.NEXT_PUBLIC_CATALOG_SERVICE_API}/categories/${categoryId}`,
 };

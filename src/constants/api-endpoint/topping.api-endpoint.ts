@@ -1,13 +1,11 @@
-import { CATALOG_SERVICE } from "../constant";
-
 export const toppingEndPoint = {
-  createTopping: `${CATALOG_SERVICE}/toppings`,
+  createTopping: `${process.env.NEXT_PUBLIC_CATALOG_SERVICE_API}/toppings`,
   fetchToppings: (restaurantId: string) =>
-    `${CATALOG_SERVICE}/toppings?tenantId=${restaurantId}`,
+    `${process.env.NEXT_PUBLIC_CATALOG_SERVICE_API}/toppings?tenantId=${restaurantId}`,
   fetchSingleTopping: (toppingId: string) =>
-    `${CATALOG_SERVICE}/toppings/${toppingId}`,
+    `${process.env.NEXT_PUBLIC_CATALOG_SERVICE_API}/toppings/${toppingId}`,
   updateTopping: (toppingId: string) =>
-    `${CATALOG_SERVICE}/toppings/${toppingId}`,
+    `${process.env.NEXT_PUBLIC_CATALOG_SERVICE_API}/toppings/${toppingId}`,
   deleteTopping: (toppingId: string) =>
-    `${CATALOG_SERVICE}/toppings/${toppingId}`,
+    `${process.env.NEXT_PUBLIC_CATALOG_SERVICE_API}/toppings/${toppingId}`,
 };

@@ -1,5 +1,7 @@
 // import { CartItem } from '../store/features/cart/cartSlice';
 
+import { CartItem } from "../store/features/cart/cartSlice";
+
 export interface Tenant {
   id: string;
   name: string;
@@ -78,31 +80,31 @@ export type CouponCodeData = {
   tenantId: string;
 };
 
-// export type OrderData = {
-//     cart: CartItem[];
-//     couponCode: string;
-//     tenantId: string;
-//     customerId: string;
-//     comment: string;
-//     address: string;
-//     paymentMode: string;
-// };
+export type OrderData = {
+  cart: CartItem[];
+  couponCode: string;
+  tenantId: string;
+  customerId: string;
+  comment: string;
+  address: string;
+  paymentMode: string;
+};
 
-// export interface Order {
-//     _id: string;
-//     customerId: Customer;
-//     total: number;
-//     discount: number;
-//     taxes: number;
-//     deliveryCharges: number;
-//     address: string;
-//     tenantId: string;
-//     comment?: string;
-//     paymentMode: string;
-//     orderStatus: string;
-//     paymentStatus: string;
-//     createdAt: string;
-// }
+export interface Order {
+  _id: string;
+  customerId: Customer;
+  total: number;
+  discount: number;
+  taxes: number;
+  deliveryCharges: number;
+  address: string;
+  tenantId: string;
+  comment?: string;
+  paymentMode: string;
+  orderStatus: string;
+  paymentStatus: string;
+  createdAt: string;
+}
 
 export type CreateTenantsType = {
   name: string;
@@ -123,3 +125,34 @@ export type tenantQueryParams = {
   currentPage: number;
   q?: string;
 };
+
+export interface User {
+  id: number;
+  firstName: string;
+  lastName: string;
+  email: string;
+  role: "admin" | "customer" | "manager";
+  tenant: number | null;
+}
+
+export interface Session {
+  user: User;
+}
+
+export type Credentials = {
+  email: string;
+  password: string;
+};
+
+export interface User {
+  id: number;
+  firstName: string;
+  lastName: string;
+  email: string;
+  role: "admin" | "customer" | "manager";
+  tenant: number | null;
+}
+
+export interface Session {
+  user: User;
+}

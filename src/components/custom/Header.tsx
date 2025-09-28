@@ -11,11 +11,15 @@ import {
 import TenantSelect from "./TenantSelect";
 import dynamic from "next/dynamic";
 import CartCounter from "./cart-counter";
+import Logout from "./logout";
+import { getSession } from "@/lib/session";
 
 // const CartCounterWithoutSSR = dynamic(() => import("./cart-counter"), {
 //   ssr: false,
 // });
 export const Header = async () => {
+  const session = await getSession();
+
   return (
     <>
       <header className="bg-white">
@@ -73,9 +77,13 @@ export const Header = async () => {
               <Phone />
               <span>+91 9800 098 998</span>
             </div>
-            <Button size={"sm"} asChild>
-              <Link href="/login">Login</Link>
-            </Button>
+            {session ? (
+              <Logout />
+            ) : (
+              <Button size={"sm"} asChild>
+                <Link href="/login">Login</Link>
+              </Button>
+            )}
           </div>
         </nav>
       </header>
