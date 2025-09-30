@@ -6,6 +6,7 @@ import { Label } from "@/components/ui/label";
 import Link from "next/link";
 import Image from "next/image";
 import React, { useActionState } from "react";
+import { useFormState } from "react-dom";
 import login from "@/lib/actions/login";
 import { useSearchParams } from "next/navigation";
 import { SubmitLoginButton } from "@/components/custom/SubmitLoginButton";
@@ -26,17 +27,17 @@ const Login = () => {
   }
 
   return (
-    <div className="w-full lg:grid lg:min-h-[600px] lg:grid-cols-2">
+    <div className="w-full lg:grid lg:min-h-[600px] lg:grid-cols-2 xl:min-h-[800px]">
       <div className="flex items-center justify-center py-12">
         <div className="mx-auto grid w-[350px] gap-6">
           <div className="grid gap-2 text-center">
             <p
               aria-live="polite"
               className={`${
-                state?.type === "error" ? "text-red-500" : "text-green-500"
+                state.type === "error" ? "text-red-500" : "text-green-500"
               }`}
             >
-              {state?.message}
+              {state.message}
             </p>
             <h1 className="text-3xl font-bold">Login</h1>
             <p className="text-balance text-muted-foreground">
@@ -51,9 +52,9 @@ const Login = () => {
                   id="email"
                   type="email"
                   name="email"
+                  className="bg-white"
                   placeholder="m@example.com"
                   required
-                  className="bg-white"
                 />
               </div>
               <div className="grid gap-2">
@@ -70,9 +71,8 @@ const Login = () => {
                   id="password"
                   name="password"
                   type="password"
-                  required
                   className="bg-white"
-                  autoComplete="on"
+                  required
                 />
               </div>
               <SubmitLoginButton />
@@ -88,7 +88,7 @@ const Login = () => {
       </div>
       <div className="hidden bg-muted lg:block">
         <Image
-          src="/images/login-image.webp"
+          src="/login-image.webp"
           width={1920}
           height={1080}
           style={{ objectFit: "cover" }}

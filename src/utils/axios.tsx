@@ -1,3 +1,4 @@
+import { authEndpoint } from "@/constants/api-endpoint/auth.api-endpoint";
 import axios from "axios";
 
 export const axiosInstance = axios.create({
@@ -11,7 +12,7 @@ export const axiosInstance = axios.create({
 
 const refreshToken = async () => {
   await axios.post(
-    `${process.env.NEXT_PUBLIC_BACKEND_URL}${process.env.NEXT_PUBLIC_AUTH_SERVICE_API}/auth/refresh`,
+    `${process.env.NEXT_PUBLIC_BACKEND_URL}${authEndpoint.refresh}`,
     {},
     {
       withCredentials: true,

@@ -31,10 +31,11 @@ export default function Home({
           </div>
           <div>
             <Image
+              src="/images/pizza-main.png"
               alt="pizza-main"
-              src={"/images/pizza-main.png"}
               width={400}
               height={400}
+              priority
             />
           </div>
         </div>

@@ -34,3 +34,16 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+
+// const res = await signIn("credentials", {
+// redirect: false,
+// email: data.email,
+// password: data.password,
+// });
+
+    // if (res?.error) {
+    //   toast.error("Login Failed!!");
+    // } else {
+    //   toast.success("User Login Successfully!!");
+    //   router.push("/"); // redirect to home page
+    // }

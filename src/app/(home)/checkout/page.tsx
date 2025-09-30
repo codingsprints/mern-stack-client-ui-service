@@ -23,24 +23,28 @@ import { Textarea } from "@/components/ui/textarea";
 import { Coins, CreditCard, Plus } from "lucide-react";
 import { redirect } from "next/navigation";
 import CustomerForm from "./components/customerForm";
+import { getSession } from "@/lib/session";
 
 export default async function Checkout({
   searchParams,
 }: {
   searchParams: { restaurantId: string };
 }) {
-  //   const session = await getSession();
+  const session = await getSession();
 
-  const sParams = new URLSearchParams(searchParams.restaurantId);
-  const existingQueryString = sParams.toString();
+  const sParams = new URLSearchParams(searchParams?.restaurantId).toString();
+  // const existingQueryString = sParams.toString();
 
-  sParams.append("return-to", `/checkout?${existingQueryString}`);
+  // console.log(sParams, existingQueryString);
+
+  // sParams.append("return-to", `/checkout?${existingQueryString}`);
 
   // /login?return-to=/checkout?existingQueryString
+  console.log(sParams);
 
-  //   if (!session) {
-  //     redirect(`/login?${sParams}`);
-  //   }
+  if (!session) {
+    redirect(`/login?${sParams}`);
+  }
 
   return <CustomerForm />;
 }

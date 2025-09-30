@@ -13,12 +13,16 @@ import dynamic from "next/dynamic";
 import CartCounter from "./cart-counter";
 import Logout from "./logout";
 import { getSession } from "@/lib/session";
+import { auth } from "@/lib/auth";
+import { redirect } from "next/navigation";
 
 // const CartCounterWithoutSSR = dynamic(() => import("./cart-counter"), {
 //   ssr: false,
 // });
 export const Header = async () => {
   const session = await getSession();
+  // const session = await auth();
+  console.log("session - header --->", session);
 
   return (
     <>

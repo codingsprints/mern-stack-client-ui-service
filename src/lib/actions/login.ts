@@ -1,7 +1,6 @@
 "use server";
 import { authEndpoint } from "@/constants/api-endpoint/auth.api-endpoint";
 import { cookies } from "next/headers";
-import { toast } from "sonner";
 import cookie from "cookie";
 
 export default async function login(prevState: any, formdata: FormData) {
@@ -35,7 +34,7 @@ export default async function login(prevState: any, formdata: FormData) {
       console.log("error", error);
       return {
         type: "error",
-        message: error.message as string,
+        message: (error.message as string) || "Login Failed",
       };
     }
 

@@ -15,8 +15,8 @@ import { CATEGORIES } from "@/constants/constant";
 import { addToCart, CartItem } from "@/lib/store/features/cart/cartSlice";
 import { useAppDispatch, useAppSelector } from "@/lib/store/hooks";
 import { hashTheItem } from "@/lib/utils";
-import { toast } from "sonner";
 import { SucessToast } from "@/components/custom/SucessToast";
+import { toast } from "react-toastify";
 
 const ProductModal = ({ product }: { product: Product }) => {
   const defaultConfiguration = Object.entries(

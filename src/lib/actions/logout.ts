@@ -1,7 +1,8 @@
-"use serve r";
+"use server";
 
 import { authEndpoint } from "@/constants/api-endpoint/auth.api-endpoint";
 import { cookies } from "next/headers";
+import { signOut } from "../auth";
 
 export const logout = async () => {
   const response = await fetch(
