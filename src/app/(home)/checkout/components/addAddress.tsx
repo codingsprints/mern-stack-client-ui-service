@@ -24,6 +24,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { UpdateCustomerAddress } from "@/services/customer.service";
 // import { addAddress } from "@/lib/http/api";
 
 const formSchema = z.object({
@@ -32,33 +33,23 @@ const formSchema = z.object({
   }),
 });
 
+export type AddressFormValues = z.infer<typeof formSchema>;
+
 const AddAdress = ({ customerId }: { customerId: string | undefined }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const addressForm = useForm<z.infer<typeof formSchema>>({
+  const { mutate: addressMutate, isPending: addressIsPending } =
+    UpdateCustomerAddress(customerId || "");
+
+  const addressForm = useForm<AddressFormValues>({
     resolver: zodResolver(formSchema),
-  });
-
-  const queryClient = useQueryClient();
-
-  const { mutate, isPending } = useMutation({
-    mutationKey: ["address", customerId],
-    mutationFn: async (address: string) => {
-      // todo: put proper check on customerId.
-      //   return await addAddress(customerId!, address);
-    },
-    onSuccess: () => {
-      addressForm.reset();
-      setIsModalOpen(false);
-      return queryClient.invalidateQueries({ queryKey: ["customer"] });
-    },
   });
 
   const handleAddressAdd = (e: React.FormEvent<HTMLFormElement>) => {
     e.stopPropagation();
 
     return addressForm.handleSubmit((data: z.infer<typeof formSchema>) => {
-      mutate(data.address);
+      addressMutate(data.address);
     })(e);
   };
 
@@ -100,8 +91,8 @@ const AddAdress = ({ customerId }: { customerId: string | undefined }) => {
               </div>
             </div>
             <DialogFooter>
-              <Button type="submit" disabled={isPending}>
-                {isPending ? (
+              <Button type="submit" disabled={addressIsPending}>
+                {addressIsPending ? (
                   <span className="flex items-center gap-2">
                     <LoaderCircle className="animate-spin" />
                     <span>Please wait...</span>

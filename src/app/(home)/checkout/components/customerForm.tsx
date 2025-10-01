@@ -30,17 +30,19 @@ import { clearCart } from "@/lib/store/features/cart/cartSlice";
 import { GetCustomer } from "@/services/customer.service";
 
 const formSchema = z.object({
-  address: z.string().min(1, { message: "Please select an address." }),
-  paymentMode: z.enum(["card", "cash"]).refine(Boolean, {
-    message: "You need to select a payment mode type.",
+  address: z.string({ error: "Please select an address." }),
+  paymentMode: z.enum(["card", "cash"], {
+    error: "You need to select a payment mode type.",
   }),
   comment: z.any(),
 });
 
+export type LoginFormValues = z.infer<typeof formSchema>;
+
 const CustomerForm = () => {
   const dispatch = useAppDispatch();
 
-  const customerForm = useForm<z.infer<typeof formSchema>>({
+  const customerForm = useForm<LoginFormValues>({
     resolver: zodResolver(formSchema),
   });
 
@@ -90,12 +92,13 @@ const CustomerForm = () => {
   //     return <h3>Loading...</h3>;
   //   }
 
-  const handlePlaceOrder = (data: z.infer<typeof formSchema>) => {
+  const handlePlaceOrder = (data: LoginFormValues) => {
     const tenantId = searchParam.get("restaurantId");
     if (!tenantId) {
       alert("Restaurant Id is required!");
       return;
     }
+    console.log("handlePlaceOrder", data);
     // const orderData: OrderData = {
     //   cart: cart.cartItems,
     //   couponCode: chosenCouponCode.current ? chosenCouponCode.current : "",
@@ -177,7 +180,7 @@ const CustomerForm = () => {
                                     onValueChange={field.onChange}
                                     className="grid grid-cols-2 gap-6 mt-2"
                                   >
-                                    {customerData?.data?.customerDto?.addresses.map(
+                                    {customerData?.data?.customerDto?.addresses?.map(
                                       (address: Address) => {
                                         return (
                                           <Card

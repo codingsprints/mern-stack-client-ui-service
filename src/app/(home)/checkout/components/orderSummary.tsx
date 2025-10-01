@@ -147,16 +147,16 @@ const OrderSummary = ({}: //   isPlaceOrderPending,
         </div>
 
         <div className="text-right mt-6">
-          {/* <Button disabled={isPlaceOrderPending}>
-            {isPlaceOrderPending ? (
+          <Button>
+            {/* {isPlaceOrderPending ? (
               <span className="flex items-center gap-2">
                 <LoaderCircle className="animate-spin" />
                 <span>Please wait...</span>
               </span>
-            ) : (
-              <span>Place order</span>
-            )}
-          </Button> */}
+            ) : ( */}
+            <span>Place order</span>
+            {/* )} */}
+          </Button>
         </div>
       </CardContent>
     </Card>

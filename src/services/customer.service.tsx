@@ -1,4 +1,4 @@
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { axiosInstance } from "../utils/axios";
 import { AxiosError } from "axios";
 import { Credentials } from "@/lib/types";
@@ -17,17 +17,28 @@ export const GetCustomer = () => {
   });
 };
 
-export const UpdateCustomerAddress = () => {
+export const UpdateCustomerAddress = (customerId: string) => {
+  const queryClient = useQueryClient();
   return useMutation({
-    mutationKey: [customerQueryKeys.updateCustomerAddress],
-    mutationFn: async (id: string) => {
-      const { data } = await axiosInstance.patch(
-        customerEndpoint.updateCustomerAddress(id)
-      );
-      return data;
+    mutationKey: [customerQueryKeys.updateCustomerAddress, customerId],
+    mutationFn: async (address: string) => {
+      if (customerId) {
+        const { data } = await axiosInstance.patch(
+          customerEndpoint.updateCustomerAddress(customerId),
+          {
+            address,
+          }
+        );
+        return data;
+      } else {
+        return toast.error("customerId not available");
+      }
     },
     onSuccess: (data) => {
       toast.success(data?.message);
+      queryClient.invalidateQueries({
+        queryKey: [customerQueryKeys.getCustomer],
+      });
     },
     onError(error) {
       const err = error as AxiosError<any>; // cast error to AxiosError
