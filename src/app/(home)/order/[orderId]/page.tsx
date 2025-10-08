@@ -26,8 +26,9 @@ const SingleOrder = async ({ params }: { params: { orderId: string } }) => {
   );
 
   if (!response.ok) {
-    console.log(response);
-    throw new Error("Failed to fetch single order");
+    console.error("Failed to fetch single order");
+    // window.location.href = "/";
+    // throw new Error("Failed to fetch single order");
   }
   const orderData = await response.json();
 
