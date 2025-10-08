@@ -4,6 +4,7 @@ import { AxiosError } from "axios";
 import { toast } from "react-toastify";
 import { couponQueryKeys } from "@/constants/query-keys/coupon.query-keys";
 import { couponEndpoint } from "@/constants/api-endpoint/coupon.api-endpoint";
+import { CouponCodeData } from "@/lib/types";
 
 export const GetCoupon = () => {
   return useQuery({
@@ -71,20 +72,25 @@ export const DeleteCoupon = () => {
   });
 };
 
-export const VerifyCoupon = () => {
+export const VerifyCoupon = (
+  callBackFailuare: (message: string) => void,
+  callBackSuccess: (data: any) => void
+) => {
   return useMutation({
     mutationKey: [couponQueryKeys.verifyCoupon],
-    mutationFn: async (id: string) => {
-      const { data } = await axiosInstance.post(couponEndpoint.verifyCoupon);
+    mutationFn: async (couponData: CouponCodeData) => {
+      const { data } = await axiosInstance.post(
+        couponEndpoint.verifyCoupon,
+        couponData
+      );
       return data;
     },
     onSuccess: (data) => {
-      toast.success(data?.message);
+      callBackSuccess(data);
     },
     onError(error) {
       const err = error as AxiosError<any>; // cast error to AxiosError
-
-      toast.error(err?.response?.data?.error?.message);
+      callBackFailuare(err?.response?.data?.error?.message);
     },
   });
 };

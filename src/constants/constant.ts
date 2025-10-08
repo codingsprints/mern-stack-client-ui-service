@@ -18,6 +18,9 @@ export const PER_PAGE = 6;
 
 export const CURRENT_PAGE = 1;
 
+export const DELIVERY_CHARGES = 100;
+export const TAXES_PERCENTAGE = 18;
+
 export const list = [
   {
     OrderSummary: "Peperoni, Margarita ...",
@@ -62,3 +65,8 @@ export const list = [
     loading: false,
   },
 ];
+
+export enum PaymentMode {
+  CARD = "card",
+  CASH = "cash",
+}

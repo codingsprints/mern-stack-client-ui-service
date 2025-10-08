@@ -28,6 +28,13 @@ import { useAppDispatch, useAppSelector } from "@/lib/store/hooks";
 import { useSearchParams } from "next/navigation";
 import { clearCart } from "@/lib/store/features/cart/cartSlice";
 import { GetCustomer } from "@/services/customer.service";
+import { CreateOrder } from "@/services/order.service";
+import { orderQueryKey } from "@/constants/query-keys/order.query-keys";
+import { axiosInstance } from "@/utils/axios";
+import { orderEndPoint } from "@/constants/api-endpoint/order.api-endpoint";
+import { toast } from "react-toastify";
+import { AxiosError } from "axios";
+import { PaymentMode } from "@/constants/constant";
 
 const formSchema = z.object({
   address: z.string({ error: "Please select an address." }),
@@ -41,6 +48,8 @@ export type LoginFormValues = z.infer<typeof formSchema>;
 
 const CustomerForm = () => {
   const dispatch = useAppDispatch();
+  const chosenCouponCode = React.useRef("");
+  const idempotencyKeyRef = React.useRef("");
 
   const customerForm = useForm<LoginFormValues>({
     resolver: zodResolver(formSchema),
@@ -48,12 +57,53 @@ const CustomerForm = () => {
 
   const searchParam = useSearchParams();
 
-  const chosenCouponCode = React.useRef("");
-  const idempotencyKeyRef = React.useRef("");
-
   const cart = useAppSelector((state) => state.cart);
 
   const { data: customerData, isLoading: customerIsLoading } = GetCustomer();
+
+  const { mutate: createOrderMutate, isPending: isPlaceOrderPending } =
+    useMutation({
+      mutationKey: [orderQueryKey.createOrder],
+      mutationFn: async (details: OrderData) => {
+        const idempotencyKey = idempotencyKeyRef.current
+          ? idempotencyKeyRef.current
+          : (idempotencyKeyRef.current =
+              uuidv4() + customerData?.data?.customerDto?._id);
+        const { data } = await axiosInstance.post(
+          orderEndPoint.createOrder,
+          details,
+          {
+            headers: {
+              "Idempotency-Key": idempotencyKey,
+            },
+          }
+        );
+        return data;
+      },
+      retry: 3,
+      onSuccess(data) {
+        console.log("-------------------------1----------------", data);
+        if (
+          data?.data?.paymentUrl &&
+          data?.data?.orderDto[0]?.paymentMode === PaymentMode.CARD
+        ) {
+          toast.info("redirect to payment");
+          window.location.href = data?.data?.paymentUrl;
+          // dispatch(clearCart());
+        }
+
+        if (!data?.data?.paymentUrl) {
+          toast.success(data?.message);
+          dispatch(clearCart());
+        }
+      },
+      onError(error) {
+        const err = error as AxiosError<any>; // cast error to AxiosError
+        console.log("err --------------------", err);
+        toast.error(err?.response?.data?.error?.message);
+      },
+    });
+  // const { mutate: createOrderMutate } = CreateOrder();
 
   console.log("customerData ->", customerData);
 
@@ -92,24 +142,26 @@ const CustomerForm = () => {
   //     return <h3>Loading...</h3>;
   //   }
 
-  const handlePlaceOrder = (data: LoginFormValues) => {
+  const handlePlaceOrder = async (data: LoginFormValues) => {
     const tenantId = searchParam.get("restaurantId");
     if (!tenantId) {
       alert("Restaurant Id is required!");
       return;
     }
     console.log("handlePlaceOrder", data);
-    // const orderData: OrderData = {
-    //   cart: cart.cartItems,
-    //   couponCode: chosenCouponCode.current ? chosenCouponCode.current : "",
-    //   tenantId: tenantId,
-    //   customerId: customer ? customer._id : "",
-    //   comment: data.comment,
-    //   address: data.address,
-    //   paymentMode: data.paymentMode,
-    // };
+    const orderData: OrderData = {
+      cart: cart?.cartItems,
+      couponCode: chosenCouponCode?.current ? chosenCouponCode?.current : "",
+      tenantId: tenantId,
+      customerId: customerData ? customerData?.data?.customerDto?._id : "",
+      comment: data?.comment,
+      address: data?.address,
+      paymentMode: data?.paymentMode,
+    };
 
-    // mutate(orderData);
+    console.log(orderData);
+
+    createOrderMutate(orderData);
   };
 
   return (
@@ -289,10 +341,10 @@ const CustomerForm = () => {
                 </CardContent>
               </Card>
               <OrderSummary
-              // isPlaceOrderPending={isPlaceOrderPending}
-              // handleCouponCodeChange={(code) => {
-              //   chosenCouponCode.current = code;
-              // }}
+                isPlaceOrderPending={isPlaceOrderPending}
+                handleCouponCodeChange={(code) => {
+                  chosenCouponCode.current = code;
+                }}
               />
             </div>
           </form>

@@ -8,7 +8,7 @@ export const getSession = async () => {
 
 const getSelf = async (): Promise<Session | null> => {
   const response = await fetch(
-    `${process.env.NEXT_PUBLIC_BACKEND_URL}${authEndpoint.self}`,
+    `${process.env.NEXT_PUBLIC_BACKEND_URL}${authEndpoint.selfRoot}`,
     {
       headers: {
         Authorization: `Bearer ${(await cookies()).get("accessToken")?.value}`,
@@ -19,6 +19,8 @@ const getSelf = async (): Promise<Session | null> => {
   if (!response.ok) {
     return null;
   }
+
+  console.log("response -", response);
 
   return {
     user: (await response.json()) as User,

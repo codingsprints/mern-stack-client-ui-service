@@ -156,3 +156,11 @@ export interface User {
 export interface Session {
   user: User;
 }
+
+export enum OrderStatus {
+  RECEIVED = "received",
+  CONFIRMED = "confirmed",
+  PREPARED = "prepared",
+  OUT_FOR_DELIVERY = "out_for_delivery",
+  DELIVERED = "delivered",
+}

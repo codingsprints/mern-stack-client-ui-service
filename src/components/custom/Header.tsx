@@ -81,7 +81,7 @@ export const Header = async () => {
               <Phone />
               <span>+91 9800 098 998</span>
             </div>
-            {session ? (
+            {session?.user ? (
               <Logout />
             ) : (
               <Button size={"sm"} asChild>

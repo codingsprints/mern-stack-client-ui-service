@@ -1,34 +1,36 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
+import { DELIVERY_CHARGES, TAXES_PERCENTAGE } from "@/constants/constant";
 // import { verifyCoupon } from '@/lib/http/api';
 import { useAppSelector } from "@/lib/store/hooks";
 import { CouponCodeData } from "@/lib/types";
 import { getItemTotal } from "@/lib/utils";
+import { VerifyCoupon } from "@/services/coupon.service";
 import { useMutation } from "@tanstack/react-query";
 import { LoaderCircle } from "lucide-react";
 import { useSearchParams } from "next/navigation";
 import React from "react";
+import { toast } from "react-toastify";
 
 // todo: Move this to the server, and calulate according to your business rules.
-const TAXES_PERCENTAGE = 18;
-// todo: Move this to the server (Order service).
-const DELIVERY_CHARGES = 100;
 
-const OrderSummary = ({}: //   isPlaceOrderPending,
-//   handleCouponCodeChange,
-{
-  //   isPlaceOrderPending: boolean;
-  //   handleCouponCodeChange: (code: string) => void;
+// todo: Move this to the server (Order service).
+
+const OrderSummary = ({
+  isPlaceOrderPending,
+  handleCouponCodeChange,
+}: {
+  isPlaceOrderPending: boolean;
+  handleCouponCodeChange: (code: string) => void;
 }) => {
   const searchParam = useSearchParams();
 
-  const cart = useAppSelector((state) => state.cart.cartItems);
-
   const [discountPercentage, setDiscountPercentage] = React.useState(0);
   const [discountError, setDiscountError] = React.useState("");
-
   const couponCodeRef = React.useRef<HTMLInputElement>(null);
+
+  const cart = useAppSelector((state) => state.cart.cartItems);
 
   const subTotal = React.useMemo(() => {
     return cart.reduce((acc, curr) => {
@@ -53,6 +55,32 @@ const OrderSummary = ({}: //   isPlaceOrderPending,
   const grandWithoutDiscountTotal = React.useMemo(() => {
     return subTotal + taxesAmount + DELIVERY_CHARGES;
   }, [subTotal, taxesAmount, DELIVERY_CHARGES]);
+
+  const callBackSuccess = (data: any) => {
+    console.log("callBackSuccess ->", data);
+    if (data?.valid) {
+      setDiscountError("");
+      handleCouponCodeChange(
+        couponCodeRef.current ? couponCodeRef.current.value : ""
+      );
+      setDiscountPercentage(data?.discount);
+      toast.success(data?.message);
+      return;
+    }
+
+    setDiscountError("Coupon is invalid");
+    handleCouponCodeChange("");
+    setDiscountPercentage(0);
+  };
+  const callBackFailuare = (message: string) => {
+    setDiscountError(message);
+    // toast.error(message);
+  };
+
+  const { mutate: verifyCouponMutate } = VerifyCoupon(
+    callBackFailuare,
+    callBackSuccess
+  );
 
   // todo: display error isError, error
   // const { mutate } = useMutation({
@@ -91,7 +119,24 @@ const OrderSummary = ({}: //   isPlaceOrderPending,
   const handleCouponValidation = (e: React.MouseEvent) => {
     e.preventDefault();
 
-    // mutate();
+    if (!couponCodeRef.current) {
+      return;
+    }
+
+    const restaurantId = searchParam.get("restaurantId");
+
+    if (!restaurantId) {
+      return;
+    }
+
+    const data: CouponCodeData = {
+      code: couponCodeRef.current.value,
+      tenantId: restaurantId,
+    };
+
+    console.log(data);
+
+    verifyCouponMutate(data);
   };
 
   return (
@@ -102,19 +147,19 @@ const OrderSummary = ({}: //   isPlaceOrderPending,
       <CardContent className="grid gap-4 pt-6">
         <div className="flex items-center justify-between">
           <span>Subtotal</span>
-          {/* <span className="font-bold">₹{subTotal}</span> */}
+          <span className="font-bold">₹{subTotal}</span>
         </div>
         <div className="flex items-center justify-between">
           <span>Taxes</span>
-          {/* <span className="font-bold">₹{taxesAmount}</span> */}
+          <span className="font-bold">₹{taxesAmount}</span>
         </div>
         <div className="flex items-center justify-between">
           <span>Delivery charges</span>
-          {/* <span className="font-bold">₹{DELIVERY_CHARGES}</span> */}
+          <span className="font-bold">₹{DELIVERY_CHARGES}</span>
         </div>
         <div className="flex items-center justify-between">
           <span>Discount</span>
-          {/* <span className="font-bold">₹{discountAmount}</span> */}
+          <span className="font-bold">₹{discountAmount}</span>
         </div>
         <hr />
         <div className="flex items-center justify-between">
@@ -123,10 +168,10 @@ const OrderSummary = ({}: //   isPlaceOrderPending,
             <span
               className={discountPercentage ? "line-through text-gray-400" : ""}
             >
-              {/* ₹{grandWithoutDiscountTotal} */}
+              ₹{grandWithoutDiscountTotal}
             </span>
             {discountPercentage ? (
-              <span className="text-green-700">${grandWithDiscountTotal}</span>
+              <span className="text-green-700">₹{grandWithDiscountTotal}</span>
             ) : null}
           </span>
         </div>
@@ -146,16 +191,16 @@ const OrderSummary = ({}: //   isPlaceOrderPending,
           </Button>
         </div>
 
-        <div className="text-right mt-6">
-          <Button>
-            {/* {isPlaceOrderPending ? (
+        <div className="text-right mt-6 cursor-pointer">
+          <Button className="cursor-pointer">
+            {isPlaceOrderPending ? (
               <span className="flex items-center gap-2">
                 <LoaderCircle className="animate-spin" />
                 <span>Please wait...</span>
               </span>
-            ) : ( */}
-            <span>Place order</span>
-            {/* )} */}
+            ) : (
+              <span>Place order</span>
+            )}
           </Button>
         </div>
       </CardContent>
