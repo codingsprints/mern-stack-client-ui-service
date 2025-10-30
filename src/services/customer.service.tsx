@@ -1,8 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { axiosInstance } from "../utils/axios";
 import { AxiosError } from "axios";
-import { Credentials } from "@/lib/types";
-import cookie from "cookie";
 import { toast } from "react-toastify";
 import { customerEndpoint } from "@/constants/api-endpoint/customer.api-endpoint";
 import { customerQueryKeys } from "@/constants/query-keys/customer.query-keys";

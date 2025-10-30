@@ -1,6 +1,5 @@
 import cookie from "cookie";
 import { cookies } from "next/headers";
-import { toast } from "react-toastify";
 
 export const SetCookies = async (response: Response) => {
   const c = response.headers.getSetCookie();

@@ -13,9 +13,9 @@ declare module "next-auth" {
 
 const Refresher = ({ children }: { children: React.ReactNode }) => {
   const timeoutId = useRef<NodeJS.Timeout>(null);
+  const session = useSession();
 
   const getAccessToken = async () => {
-    const session = useSession();
     // const res = await fetch("/api/auth/accessToken");
 
     // if (!res.ok) {

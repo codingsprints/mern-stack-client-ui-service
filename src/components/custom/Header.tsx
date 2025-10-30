@@ -1,20 +1,10 @@
 import { Phone } from "lucide-react";
 import Link from "next/link";
 import { Button } from "../ui/button";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "../ui/select";
 import TenantSelect from "./TenantSelect";
-import dynamic from "next/dynamic";
 import CartCounter from "./cart-counter";
 import Logout from "./logout";
 import { getSession } from "@/lib/session";
-import { auth } from "@/lib/auth";
-import { redirect } from "next/navigation";
 
 // const CartCounterWithoutSSR = dynamic(() => import("./cart-counter"), {
 //   ssr: false,

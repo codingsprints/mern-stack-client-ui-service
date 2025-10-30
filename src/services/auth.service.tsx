@@ -4,10 +4,9 @@ import { AxiosError } from "axios";
 import { authQueryKeys } from "@/constants/query-keys/auth.query-keys";
 import { authEndpoint } from "@/constants/api-endpoint/auth.api-endpoint";
 import { Credentials } from "@/lib/types";
-import cookie from "cookie";
 import { toast } from "react-toastify";
 
-export const loginUser = (callbackSuccess: () => void) => {
+export const LoginUser = (callbackSuccess: () => void) => {
   return useMutation({
     mutationKey: [authQueryKeys.loginUser],
     mutationFn: async (details: Credentials) => {
@@ -27,7 +26,7 @@ export const loginUser = (callbackSuccess: () => void) => {
   });
 };
 
-export const selfUserRoot = () => {
+export const SelfUserRoot = () => {
   return useQuery({
     queryKey: [authQueryKeys.selfUserRoot],
     queryFn: async () => {
@@ -45,7 +44,7 @@ export const selfUserRoot = () => {
   });
 };
 
-export const selfUser = () => {
+export const SelfUser = () => {
   return useQuery({
     queryKey: [authQueryKeys.selfUser],
     queryFn: async () => {
@@ -62,7 +61,7 @@ export const selfUser = () => {
   });
 };
 
-export const logoutUser = () => {
+export const LogoutUser = () => {
   return useMutation({
     mutationKey: [authQueryKeys.logoutUser],
     mutationFn: async () => {

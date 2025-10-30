@@ -41,7 +41,7 @@ export const CreateProducts = (
   callbackCreateTenantSuccess: () => void,
   callbackCreateTenantFailure: (message: string) => void
 ) => {
-  const queryClient = useQueryClient();
+  // const queryClient = useQueryClient();
   return useMutation({
     mutationKey: [categoryQueryKey.createcategories],
     mutationFn: async (details: CreateTenantsType) => {
@@ -76,7 +76,7 @@ export const UpdateCategories = (
   callbackUpdateTenantSuccess: () => void,
   callbackUpdateTenantFailure: (message: string) => void
 ) => {
-  const queryClient = useQueryClient();
+  // const queryClient = useQueryClient();
   return useMutation({
     mutationKey: [categoryQueryKey.updatecategories],
     mutationFn: async (details: CreateTenantsType) => {

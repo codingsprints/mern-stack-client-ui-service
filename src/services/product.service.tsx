@@ -116,7 +116,7 @@ export const UpdateProduct = (
 };
 
 export const DeleteProduct = () => {
-  const queryClient = useQueryClient();
+  // const queryClient = useQueryClient();
   return useMutation({
     mutationKey: [productQueryKey.deleteproducts],
     mutationFn: async (id: string) => {

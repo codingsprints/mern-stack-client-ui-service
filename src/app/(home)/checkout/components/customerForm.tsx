@@ -2,17 +2,15 @@
 import React from "react";
 import { z } from "zod";
 import { v4 as uuidv4 } from "uuid";
-import { Coins, CreditCard, Plus } from "lucide-react";
-import { useMutation, useQuery } from "@tanstack/react-query";
-
-import { Button } from "@/components/ui/button";
+import { Coins, CreditCard } from "lucide-react";
+import { useMutation } from "@tanstack/react-query";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Textarea } from "@/components/ui/textarea";
 // import { createOrder, getCustomer } from "@/lib/http/api";
-import { Address, Customer, OrderData } from "@/lib/types";
+import { Address, OrderData } from "@/lib/types";
 import AddAdress from "./addAddress";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -28,7 +26,6 @@ import { useAppDispatch, useAppSelector } from "@/lib/store/hooks";
 import { useSearchParams } from "next/navigation";
 import { clearCart } from "@/lib/store/features/cart/cartSlice";
 import { GetCustomer } from "@/services/customer.service";
-import { CreateOrder } from "@/services/order.service";
 import { orderQueryKey } from "@/constants/query-keys/order.query-keys";
 import { axiosInstance } from "@/utils/axios";
 import { orderEndPoint } from "@/constants/api-endpoint/order.api-endpoint";
